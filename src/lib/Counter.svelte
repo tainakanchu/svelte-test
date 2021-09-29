@@ -3,8 +3,20 @@
 
 	let count = 0;
 
-	const displayed_count = spring();
+	// const sprintOption: SpringOpts;
+
+	// spring が svelte で動きのある表現をする時に使うオブジェクト = バネ
+	// .set() に値を指定すると時間経過で取得される値が変わっていく？
+	const displayed_count = spring(0, {
+		stiffness: 2.399,
+		damping: 0.5,
+		precision: 0.4
+	});
+
+	// $はそのプロパティがリアクティブであることを示す
+	// count が更新される度に .set() がコールされる
 	$: displayed_count.set(count);
+	// displayed_count が変わるたびにoffsetの値が更新される
 	$: offset = modulo($displayed_count, 1);
 
 	function modulo(n: number, m: number) {
@@ -27,7 +39,7 @@
 		</div>
 	</div>
 
-	<button on:click={() => (count += 1)} aria-label="Increase the counter by one">
+	<button on:click={() => (count += 100)} aria-label="Increase the counter by one">
 		<svg aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5 M0.5,0 L0.5,1" />
 		</svg>
